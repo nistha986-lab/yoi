@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>YOI - Your Emotional Companion</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Floating Background Elements -->
+    <div class="background-glow"></div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>🦋 YOI</h1>
+            <p>Your Emotional Companion for Learning & Support</p>
+        </div>
+
+        <!-- Motivation Card -->
+        <div class="motivation">
+            ✨ You are doing better than you think. Keep going 💜
+        </div>
+
+        <!-- Chat Box -->
+        <div id="chat-box"></div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+
+            <input type="text" id="message"
+                placeholder="Type in English or Hindi...">
+
+            <button onclick="sendMessage()">Send 💬</button>
+
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

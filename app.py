@@ -1,16 +1,30 @@
 from flask import Flask, render_template, request, jsonify
-import random
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-# Motivational quotes
-motivational_quotes = [
-    "✨ Believe in yourself. You are capable of amazing things.",
-    "🌸 Small progress is still progress.",
-    "💜 Every day is a fresh start.",
-    "🦋 Keep going. Your future self will thank you.",
-    "🌟 Success comes from consistency."
-]
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+SYSTEM_PROMPT = """
+You are YOI (Your Own Inspiration).
+
+You are:
+- Friendly and supportive
+- Emotional companion
+- Assignment helper
+- Motivational coach
+
+You can communicate in:
+- English
+- Hindi
+
+Always be polite, positive, and helpful.
+"""
+
 
 @app.route("/")
 def home():
@@ -19,78 +33,57 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_message = request.json.get("message", "").lower().strip()
 
-    # Greetings
-    if any(word in user_message for word in ["hi", "hello", "hey", "hy"]):
-        reply = "🦋 Hello! I'm YOI. How are you feeling today?"
+    user_message = request.json.get("message", "")
 
-    # Name
-    elif "name" in user_message:
-        reply = "🦋 My name is YOI (Your Own Inspiration)."
+    try:
 
-    # Who are you
-    elif "who are you" in user_message:
-        reply = "🦋 I am YOI, your emotional companion and study assistant."
+        headers = {
+            "Authorization": f"Bearer {GROK_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
-    # How are you
-    elif "how are you" in user_message:
-        reply = "😊 I'm doing great! Thank you for asking."
+        payload = {
+            "model": "grok-3-mini",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ],
+            "temperature": 0.7
+        }
 
-    # Motivation
-    elif "motivate" in user_message or "motivation" in user_message:
-        reply = random.choice(motivational_quotes)
-
-    # Emotional support
-    elif any(word in user_message for word in ["sad", "upset", "depressed", "crying"]):
-        reply = (
-            "💜 I'm sorry you're feeling this way. "
-            "Remember that difficult moments are temporary. "
-            "You are stronger than you think."
+        response = requests.post(
+            "https://api.x.ai/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=30
         )
 
-    # Hindi emotional support
-    elif any(word in user_message for word in ["udaas", "dukhi", "pareshan"]):
-        reply = (
-            "💜 Mujhe afsos hai ki aap udaas mehsoos kar rahe hain. "
-            "Aap bahut strong hain aur yeh samay bhi guzar jayega."
-        )
+        data = response.json()
 
-    # Assignment help
-    elif "assignment" in user_message:
-        reply = (
-            "📚 Sure! Tell me:\n"
-            "• Subject\n"
-            "• Topic\n"
-            "• Word Limit\n"
-            "and I'll help you."
-        )
+        if "choices" in data:
+            reply = data["choices"][0]["message"]["content"]
+        else:
+            print(data)
+            reply = "⚠️ Unable to get response from YOI."
 
-    # AI
-    elif "what is ai" in user_message or user_message == "ai":
-        reply = "🤖 AI enables machines to perform human-like tasks."
+        return jsonify({
+            "reply": reply
+        })
 
-    # ML
-    elif "machine learning" in user_message or user_message == "ml":
-        reply = "📊 Machine Learning is where computers learn from data."
+    except Exception as e:
+        print("ERROR:", e)
 
-    # LLM
-    elif "llm" in user_message:
-        reply = "🧠 LLM stands for Large Language Model."
-
-    # Thanks
-    elif "thank" in user_message:
-        reply = "😊 You're welcome! I'm always here to help."
-
-    # Bye
-    elif "bye" in user_message:
-        reply = "👋 Goodbye! Have a wonderful day."
-
-    else:
-        reply = f"🦋 You said: {user_message}"
-
-    return jsonify({"reply": reply})
+        return jsonify({
+            "reply": "⚠️ YOI is currently unavailable."
+        })
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5008)

@@ -5,19 +5,25 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* 🌈 Background */
+/* Background */
 body {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
     background: linear-gradient(135deg, #1A1A2E, #7B2CBF, #FF85A2);
     overflow: hidden;
     color: white;
+    transition: background 0.4s ease;
 }
 
-/* ✨ Floating Glow Effect */
+/* Light mode */
+body.light-mode {
+    background: linear-gradient(135deg, #f0e6ff, #fce4ec, #e8f4ff);
+    color: #2d1b69;
+}
+
+/* Floating Glow */
 .background-glow {
     position: absolute;
     width: 400px;
@@ -27,14 +33,81 @@ body {
     left: 10%;
     filter: blur(80px);
     animation: float 6s infinite alternate;
+    pointer-events: none;
 }
 
 @keyframes float {
     from { transform: translateY(0px); }
-    to { transform: translateY(40px); }
+    to   { transform: translateY(40px); }
 }
 
-/* 📦 Main Container */
+/* Name Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 35px;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.modal p {
+    color: #f1f1f1;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#name-input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+#name-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #FF85A2;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+#name-submit:hover {
+    background: #ff5f89;
+    transform: scale(1.02);
+}
+
+/* Main Container */
 .container {
     width: 90%;
     max-width: 900px;
@@ -43,25 +116,95 @@ body {
     border-radius: 25px;
     padding: 25px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative;
+    z-index: 1;
 }
 
-/* 🦋 Header */
+body.light-mode .container {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+/* Header */
 .header {
-    text-align: center;
     margin-bottom: 15px;
 }
 
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
 .header h1 {
-    font-size: 45px;
+    font-size: 38px;
     color: #fff;
 }
 
+body.light-mode .header h1 {
+    color: #2d1b69;
+}
+
 .header p {
-    font-size: 14px;
+    font-size: 13px;
     color: #f1f1f1;
 }
 
-/* ✨ Motivation Card */
+body.light-mode .header p {
+    color: #5a3d8a;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mood-badge {
+    font-size: 24px;
+    cursor: default;
+    transition: transform 0.3s;
+    user-select: none;
+}
+
+.mood-badge:hover {
+    transform: scale(1.2);
+}
+
+#theme-toggle,
+#clear-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-size: 17px;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+#theme-toggle:hover,
+#clear-btn:hover {
+    background: rgba(255,255,255,0.28);
+    transform: scale(1.08);
+}
+
+body.light-mode #theme-toggle,
+body.light-mode #clear-btn {
+    background: rgba(0,0,0,0.08);
+    color: #2d1b69;
+}
+
+body.light-mode #theme-toggle:hover,
+body.light-mode #clear-btn:hover {
+    background: rgba(0,0,0,0.15);
+}
+
+/* Motivation Card */
 .motivation {
     background: rgba(255,255,255,0.15);
     padding: 12px;
@@ -69,62 +212,105 @@ body {
     text-align: center;
     margin-bottom: 15px;
     font-weight: 500;
+    font-size: 14px;
 }
 
-/* 💬 Chat Box */
+body.light-mode .motivation {
+    background: rgba(123,44,191,0.1);
+    color: #2d1b69;
+}
+
+/* Chat Box */
 #chat-box {
-    height: 420px;
+    height: 400px;
     overflow-y: auto;
     padding: 15px;
     border-radius: 20px;
     background: rgba(0,0,0,0.2);
 }
 
-/* 👤 User Message */
+body.light-mode #chat-box {
+    background: rgba(0,0,0,0.05);
+}
+
+/* User Message */
 .user-message {
     background: #FF85A2;
-    padding: 12px;
-    margin: 10px;
-    border-radius: 15px;
-    text-align: right;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border-radius: 18px 18px 4px 18px;
     color: white;
     max-width: 80%;
     margin-left: auto;
     animation: fadeIn 0.3s ease-in;
 }
 
-/* 🦋 Bot Message */
+/* Bot Message */
 .bot-message {
     background: #7B2CBF;
-    padding: 12px;
-    margin: 10px;
-    border-radius: 15px;
-    text-align: left;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border-radius: 18px 18px 18px 4px;
     color: white;
     max-width: 80%;
     margin-right: auto;
     animation: fadeIn 0.3s ease-in;
 }
 
-/* ✨ Input Area */
+body.light-mode .bot-message {
+    background: #9b59b6;
+}
+
+/* Message text and timestamp */
+.msg-text {
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.msg-time {
+    display: block;
+    font-size: 10px;
+    opacity: 0.65;
+    margin-top: 5px;
+}
+
+.user-message .msg-time {
+    text-align: right;
+}
+
+.bot-message .msg-time {
+    text-align: left;
+}
+
+/* Input Area */
 .input-area {
     display: flex;
     gap: 10px;
     margin-top: 15px;
 }
 
-/* 📝 Input Box */
-input {
+#message {
     flex: 1;
     padding: 14px;
     border: none;
     border-radius: 15px;
     outline: none;
     font-size: 15px;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* 🚀 Send Button */
-button {
+body.light-mode #message {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(123,44,191,0.2);
+}
+
+/* Send Button */
+.input-area button {
     padding: 14px 20px;
     border: none;
     border-radius: 15px;
@@ -133,14 +319,51 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
 }
 
-button:hover {
+.input-area button:hover {
     background: #ff5f89;
     transform: scale(1.05);
 }
 
-/* 🔽 Scrollbar Styling */
+/* Accessibility: focus rings */
+#message:focus,
+.input-area button:focus,
+#theme-toggle:focus,
+#clear-btn:focus,
+#name-input:focus,
+#name-submit:focus {
+    outline: 2px solid #FF85A2;
+    outline-offset: 2px;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 18px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30%           { transform: translateY(-8px); }
+}
+
+/* Scrollbar */
 #chat-box::-webkit-scrollbar {
     width: 6px;
 }
@@ -150,29 +373,16 @@ button:hover {
     border-radius: 10px;
 }
 
-/* ✨ Fade Animation */
+/* Fade animation */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* 📱 Responsive */
+/* Responsive */
 @media (max-width: 600px) {
-    .container {
-        width: 95%;
-    }
-
-    .header h1 {
-        font-size: 35px;
-    }
-
-    #chat-box {
-        height: 350px;
-    }
+    .container { width: 95%; padding: 18px; }
+    .header h1 { font-size: 28px; }
+    .header-top { flex-direction: column; align-items: flex-start; }
+    #chat-box { height: 320px; }
 }

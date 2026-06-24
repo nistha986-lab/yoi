@@ -3,51 +3,64 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOI Chat - Emotional Companion</title>
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
+    <!-- Name Modal -->
+    <div id="name-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal">
+            <h2 id="modal-title">🦋 Welcome to YOI</h2>
+            <p>What's your name? I'd love to know!</p>
+            <input type="text" id="name-input" maxlength="30"
+                   placeholder="Enter your name..."
+                   aria-label="Your name">
+            <button id="name-submit" type="button">Let's Chat! 💜</button>
+        </div>
+    </div>
+
     <!-- Background Glow -->
-    <div class="background-glow"></div>
+    <div class="background-glow" aria-hidden="true"></div>
 
     <div class="container">
 
         <!-- Header -->
         <div class="header">
-            <h1>🦋 Chat with YOI</h1>
-            <p>Your emotional AI companion (English + Hindi supported)</p>
+            <div class="header-top">
+                <h1>🦋 Chat with YOI</h1>
+                <div class="header-controls">
+                    <span id="mood-indicator" class="mood-badge" aria-label="Mood indicator">😐</span>
+                    <button id="theme-toggle" type="button" aria-label="Toggle light/dark theme">🌙</button>
+                    <button id="clear-btn" type="button" aria-label="Clear chat history">🗑️</button>
+                </div>
+            </div>
+            <p id="welcome-text">Your emotional AI companion (English + Hindi supported)</p>
         </div>
 
         <!-- Motivation Card -->
-        <div class="motivation">
+        <div class="motivation" role="complementary" aria-label="Daily motivation">
             💜 "You are stronger than you think. Keep going!"
         </div>
 
         <!-- Chat Box -->
-        <div id="chat-box"></div>
+        <div id="chat-box" role="log" aria-live="polite" aria-label="Chat messages"></div>
 
         <!-- Input Area -->
         <div class="input-area">
-
             <input type="text" id="message"
-                   placeholder="Type your message in English or Hindi...">
-
-            <button onclick="sendMessage()">Send 💬</button>
-
+                   placeholder="Type your message in English or Hindi..."
+                   maxlength="1000"
+                   aria-label="Message input">
+            <button type="button" onclick="sendMessage()" aria-label="Send message">Send 💬</button>
         </div>
 
     </div>
 
-    <!-- JS -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
-
 </html>
